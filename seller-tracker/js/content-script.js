@@ -1,5 +1,5 @@
-﻿console.log('这是content script!');
-
+﻿
+ time_1 = window.setTimeout(console.log('这是content script!'),1000);
 // 注意，必须设置了run_at=document_start 此段代码才会生效
 document.addEventListener('DOMContentLoaded', function()
 {
@@ -56,6 +56,9 @@ document.addEventListener('DOMContentLoaded', function()
 	}
 });
 
+/**
+ * 初始化操作演示区
+ */
 function initCustomPanel()
 {
 	var panel = document.createElement('div');
