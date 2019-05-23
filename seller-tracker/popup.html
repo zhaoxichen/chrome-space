@@ -14,12 +14,13 @@
 	</style>
 </head>
 <body>
-	<h1>这是一个popup页面！</h1>
+	<h1>欢迎使用Amazon跟卖监控，请点击启动按钮！</h1>
 	<h2>跟卖监控</h2>
 	<div>
-		<a href="#" id="seller_tracker_start">启动跟卖监控</a>
-		<a href="#" id="seller_tracker_stop">停止跟卖监控</a>
+		<a href="#" id="seller_tracker_start">启动</a>
+		<a href="#" id="seller_tracker_stop">停止</a>
 	</div>
+	<h2>------------下面功能暂不相关---------------</h2>
 	<h2>DOM交互</h2>
 	<div>
 		<a href="#" id="update_bg_color">修改页面背景色(通过executeScript实现)</a>
@@ -39,19 +40,6 @@
 		<a href="#" id="open_url_current_tab">当前标签打开Amazon</a>
 		<a href="#" id="get_current_tab_id">获取当前标签页ID</a>
 		<a href="#" id="highlight_tab">切换到第一个标签</a>
-	</div>
-	<h2>popup与content-script交互</h2>
-	<div>
-		<a href="#" id="send_message_to_content_script">短连接发送消息到content-script</a>
-		<a href="#" id="connect_to_content_script">长连接发送消息到content-script</a>
-	</div>
-	<h2>background</h2>
-	<div>
-		<a href="#" id="open_background">打开background</a>
-		<a href="#" id="invoke_background_js">调用background页JS方法</a>
-		<a href="#" id="get_background_title">获取background页的标题</a>
-		<a href="#" id="set_background_title">设置background页标题</a>
-		(验证background生命周期和单实例特性)
 	</div>
 	<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
 	<script type="text/javascript" src="js/popup.js"></script>

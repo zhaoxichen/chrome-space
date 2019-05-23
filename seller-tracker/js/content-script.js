@@ -1,8 +1,13 @@
-﻿console.log('进入content script!');
-runLoop();//执行一次测试
+﻿//runLoop();//执行一次测试
 function runLoop() {
-    console.log('循环执行查询价格>>>');
-    console.log($("#priceblock_ourprice").text())
+    console.log('循环执行查询跟卖>>>');
+    let msg = $("#olp-upd-new");
+    if (msg.length > 0) {
+        console.log("被跟卖！")
+        tip(msg.text())
+    } else {
+        console.log("没人跟卖！")
+    }
     //sendEMail('1022369911@qq.com',$("#priceblock_ourprice").text().toString())
 }
 
@@ -115,7 +120,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         document.head.appendChild(ele);
     } else if (request.cmd == 'tracker_start') {
         tip(JSON.stringify(request.description));
-        trackerInterval = setInterval(runLoop, 1000);
+        trackerInterval = setInterval(runLoop, 10 * 1000);
         sendResponse('我收到你的消息了：' + JSON.stringify("已经启动"));
     } else if (request.cmd == 'tracker_stop') {
         tip(JSON.stringify(request.description));
