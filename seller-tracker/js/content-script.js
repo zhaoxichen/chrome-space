@@ -1,15 +1,22 @@
 ﻿console.log('进入content script!');
-
+runLoop();//执行一次测试
 function runLoop() {
     console.log('循环执行查询价格>>>');
     console.log($("#priceblock_ourprice").text())
+    //sendEMail('1022369911@qq.com',$("#priceblock_ourprice").text().toString())
 }
 
 /**
  * 邮件发送
  * */
-function SendEMail(infor, subject) {
-    alert("测试发邮件！")
+function sendEMail(to, msg) {
+    $.post("http://127.0.0.1:9091/notify/send/mail", {
+            email: to,
+            msg: msg
+        },
+        function (data, status) {
+            console.log("数据: \n" + data + "\n状态: " + status);
+        });
 }
 
 // 注意，必须设置了run_at=document_start 此段代码才会生效
@@ -115,7 +122,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         if (trackerInterval) {
             clearInterval(trackerInterval)
             sendResponse('我收到你的消息了：' + JSON.stringify("已经停止"));
-        }else {
+        } else {
             sendResponse('我收到你的消息了：' + JSON.stringify("未启动"));
         }
     } else {
