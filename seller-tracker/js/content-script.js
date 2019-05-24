@@ -4,14 +4,35 @@ function runLoop() {
     let msg = $("#olp-upd-new");
     if (msg.length > 0) {
         let href_url = window.location.href;
-        console.log(href_url + "被跟卖！")
-        tip(msg.text())
-        //sendEMail('1022369911@qq.com',msg.text())
+        //console.log(msg.html())
+        let numberStr = $('#olp-upd-new > span:nth-child(1) > a').text()
+        let number = getParenthesesStr(numberStr)
+        console.log(number)
     } else {
         console.log("没人跟卖！")
     }
+    //sendEMail('1022369911@qq.com',$("#priceblock_ourprice").text().toString())
 }
 
+/**
+ * 取出小括号内的内容
+ * @param text
+ * @returns {string}
+ */
+function getParenthesesStr(text) {
+    let result = ''
+    if (!text)
+        return result
+    let regex = /\((.+?)\)/g;
+    let options = text.match(regex)
+    if (options) {
+        let option = options[0]
+        if (option) {
+            result = option.substring(1, option.length - 1)
+        }
+    }
+    return result
+}
 /**
  * 邮件发送
  * */
