@@ -3,12 +3,13 @@ function runLoop() {
     console.log('循环执行查询跟卖>>>');
     let msg = $("#olp-upd-new");
     if (msg.length > 0) {
-        console.log("被跟卖！")
+        let href_url = window.location.href;
+        console.log(href_url + "被跟卖！")
         tip(msg.text())
+        //sendEMail('1022369911@qq.com',msg.text())
     } else {
         console.log("没人跟卖！")
     }
-    //sendEMail('1022369911@qq.com',$("#priceblock_ourprice").text().toString())
 }
 
 /**

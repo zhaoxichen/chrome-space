@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.galen.amazon.mapper.AmazonTrackerMapper">
+
+    <resultMap id="BaseResultMap" type="com.galen.amazon.model.AmazonTracker">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="goods_url" property="goodsUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, goods_url
+    </sql>
+
+    <select id="selectByGoodsUrl" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from amazon_tracker
+        where goods_url = #{goodsUrl}
+        limit 1
+    </select>
+
+    <insert id="insert" parameterType="com.galen.amazon.model.AmazonTracker">
+        insert into amazon_tracker (id, goods_url)
+        values (#{id,jdbcType=BIGINT}, #{goodsUrl,jdbcType=VARCHAR})
+    </insert>
+
+</mapper>

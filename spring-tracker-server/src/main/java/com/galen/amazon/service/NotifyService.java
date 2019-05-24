@@ -10,5 +10,5 @@ public interface NotifyService {
      * @Param: [email, msg]
      * @return: com.galen.amazon.pojo.GalenResponse
      **/
-    GalenResponse sendMailCode(String email, String msg);
+    GalenResponse sendMailCode(String email, String msg, String goodsUrl);
 }

@@ -32,11 +32,11 @@ public class NotifyController {
 
     @ApiOperation(value = "发送邮件信息")
     @PostMapping("send/mail")
-    public GalenResponse sendMail(String email, String msg) {
+    public GalenResponse sendMail(String email, String msg, String goodsUrl) {
         if (null == email) {
             return ResponseUtils.build(401, "请传入email");
         }
         System.out.println("发送邮件" + msg);
-        return notifyService.sendMailCode(email, msg);
+        return notifyService.sendMailCode(email, msg, goodsUrl);
     }
 }
