@@ -4,14 +4,20 @@ function runLoop() {
     let msg = $("#olp-upd-new");
     if (msg.length > 0) {
         let href_url = window.location.href;
-        //console.log(msg.html())
         let numberStr = $('#olp-upd-new > span:nth-child(1) > a').text()
         let number = getParenthesesStr(numberStr)
+        if (number) {
+            if (1 < parseInt(number)) {
+                console.log(number + "人跟卖！")
+                sendEMail('3314143291@qq.com',msg.html(),href_url)
+            } else {
+                console.log(number + "人跟卖！")
+            }
+        }
         console.log(number)
     } else {
         console.log("没人跟卖！")
     }
-    //sendEMail('1022369911@qq.com',$("#priceblock_ourprice").text().toString())
 }
 
 /**
@@ -33,13 +39,15 @@ function getParenthesesStr(text) {
     }
     return result
 }
+
 /**
  * 邮件发送
  * */
-function sendEMail(to, msg) {
+function sendEMail(to, msg,goodsUrl) {
     $.post("http://127.0.0.1:9091/notify/send/mail", {
             email: to,
-            msg: msg
+            msg: msg,
+            goodsUrl: goodsUrl
         },
         function (data, status) {
             console.log("数据: \n" + data + "\n状态: " + status);
