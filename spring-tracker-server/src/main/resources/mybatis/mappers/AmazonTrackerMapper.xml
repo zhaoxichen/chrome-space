@@ -16,6 +16,7 @@
         <include refid="Base_Column_List"/>
         from amazon_tracker
         where goods_url = #{goodsUrl}
+        and date(created) = curdate()
         limit 1
     </select>
 
