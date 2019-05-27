@@ -70,34 +70,6 @@ $('#custom_window_size').click(() => {
     });
 });
 
-// 最大化窗口
-$('#max_current_window').click(() => {
-    chrome.windows.getCurrent({}, (currentWindow) => {
-        // state: 可选 'minimized', 'maximized' and 'fullscreen'
-        chrome.windows.update(currentWindow.id, {state: 'maximized'});
-    });
-});
-
-
-// 最小化窗口
-$('#min_current_window').click(() => {
-    chrome.windows.getCurrent({}, (currentWindow) => {
-        // state: 可选 'minimized', 'maximized' and 'fullscreen'
-        chrome.windows.update(currentWindow.id, {state: 'minimized'});
-    });
-});
-
-// 打开新窗口
-$('#open_new_window').click(() => {
-    chrome.windows.create({state: 'maximized'});
-});
-
-// 关闭全部
-$('#close_current_window').click(() => {
-    chrome.windows.getCurrent({}, (currentWindow) => {
-        chrome.windows.remove(currentWindow.id);
-    });
-});
 
 // 新标签打开网页
 $('#open_url_new_tab').click(() => {
@@ -111,17 +83,6 @@ $('#open_url_current_tab').click(() => {
     });
 });
 
-// 获取当前标签ID
-$('#get_current_tab_id').click(() => {
-    getCurrentTabId(tabId => {
-        alert('当前标签ID：' + tabId);
-    });
-});
-
-// 高亮tab
-$('#highlight_tab').click(() => {
-    chrome.tabs.highlight({tabs: 0});
-});
 
 // popup主动发消息给content-script
 $('#send_message_to_content_script').click(() => {
@@ -158,15 +119,6 @@ function getCurrentTabId(callback) {
     });
 }
 
-// 这2个获取当前选项卡id的方法大部分时候效果都一致，只有少部分时候会不一样
-function getCurrentTabId2() {
-    chrome.windows.getCurrent(function (currentWindow) {
-        chrome.tabs.query({active: true, windowId: currentWindow.id}, function (tabs) {
-            if (callback) callback(tabs.length ? tabs[0].id : null);
-        });
-    });
-}
-
 // 向content-script主动发送消息
 function sendMessageToContentScript(message, callback) {
     getCurrentTabId((tabId) => {
@@ -175,52 +127,3 @@ function sendMessageToContentScript(message, callback) {
         });
     });
 }
-
-// 向content-script注入JS片段
-function executeScriptToCurrentTab(code) {
-    getCurrentTabId((tabId) => {
-        chrome.tabs.executeScript(tabId, {code: code});
-    });
-}
-
-
-// 演示2种方式操作DOM
-
-// 修改背景色
-$('#update_bg_color').click(() => {
-    executeScriptToCurrentTab('document.body.style.backgroundColor="red";')
-});
-
-// 修改字体大小
-$('#update_font_size').click(() => {
-    sendMessageToContentScript({cmd: 'update_font_size', size: 42}, function (response) {
-    });
-});
-
-// 显示badge
-$('#show_badge').click(() => {
-    chrome.browserAction.setBadgeText({text: 'New'});
-    chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
-});
-
-// 隐藏badge
-$('#hide_badge').click(() => {
-    chrome.browserAction.setBadgeText({text: ''});
-    chrome.browserAction.setBadgeBackgroundColor({color: [0, 0, 0, 0]});
-});
-
-// 显示桌面通知
-$('#show_notification').click(e => {
-    chrome.notifications.create(null, {
-        type: 'image',
-        iconUrl: 'img/icon.png',
-        title: '祝福',
-        message: '骚年，祝你圣诞快乐！Merry christmas!',
-        imageUrl: 'img/sds.png'
-    });
-});
-
-$('#check_media').click(e => {
-    alert('即将打开一个有视频的网站，届时将自动检测是否存在视频！');
-    chrome.tabs.create({url: 'http://www.w3school.com.cn/tiy/t.asp?f=html5_video'});
-});

@@ -36,7 +36,6 @@ public class NotifyController {
         if (null == email) {
             return ResponseUtils.build(401, "请传入email");
         }
-        System.out.println("发送邮件" + msg);
         return notifyService.sendMailCode(email, msg, goodsUrl);
     }
 }

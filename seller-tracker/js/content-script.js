@@ -1,5 +1,12 @@
-﻿//runLoop();//执行一次测试
+﻿let trackerInterval = setInterval(runLoop, 10 * 1000);//默认启动
+
 function runLoop() {
+    let randomNumber = random(0, 99);
+    if (randomNumber > 80) {
+        console.log('重新加载页面');
+        window.location.reload();//重新加载页面
+        return;
+    }
     console.log('循环执行查询跟卖>>>');
     let msg = $("#olp-upd-new");
     if (msg.length > 0) {
@@ -10,6 +17,7 @@ function runLoop() {
             if (1 < parseInt(number)) {
                 console.log(number + "人跟卖！")
                 sendEMail('3314143291@qq.com',msg.html(),href_url)
+                //sendEMail('1022369911@qq.com', msg.html(), href_url)
             } else {
                 console.log(number + "人跟卖！")
             }
@@ -18,6 +26,16 @@ function runLoop() {
     } else {
         console.log("没人跟卖！")
     }
+}
+
+/**
+ * 产生随机整数，包含下限值，但不包括上限值
+ * @param {Number} lower 下限
+ * @param {Number} upper 上限
+ * @return {Number} 返回在下限到上限之间的一个随机整数
+ */
+function random(lower, upper) {
+    return Math.floor(Math.random() * (upper - lower)) + lower;
 }
 
 /**
@@ -43,7 +61,7 @@ function getParenthesesStr(text) {
 /**
  * 邮件发送
  * */
-function sendEMail(to, msg,goodsUrl) {
+function sendEMail(to, msg, goodsUrl) {
     $.post("http://127.0.0.1:9091/notify/send/mail", {
             email: to,
             msg: msg,
@@ -138,7 +156,6 @@ function injectCustomJs(jsPath) {
     document.body.appendChild(temp);
 }
 
-let trackerInterval
 /**
  * 接收来自后台的消息(popup或者background)
  */

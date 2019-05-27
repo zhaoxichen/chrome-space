@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class NotifyServiceImpl implements NotifyService {
 
-    private final String PGS_MINI_SUBJECT = "hello, amazon";
+    private final String PGS_MINI_SUBJECT = "亚马逊跟卖提醒";
 
     @Autowired
     private AmazonTrackerMapper amazonTrackerMapper;
@@ -31,7 +31,7 @@ public class NotifyServiceImpl implements NotifyService {
         amazonTracker.setGoodsUrl(goodsUrl);
         amazonTrackerMapper.insert(amazonTracker);
         //发送邮件
-        sendMailComponent.sendHtmlMail(email, PGS_MINI_SUBJECT, msg);
+        sendMailComponent.sendHtmlMail(email, PGS_MINI_SUBJECT, msg + goodsUrl);
         return ResponseUtils.SUCCESS("发送成功");
     }
 }
