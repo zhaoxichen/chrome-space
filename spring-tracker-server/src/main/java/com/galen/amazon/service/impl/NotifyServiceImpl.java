@@ -2,7 +2,7 @@ package com.galen.amazon.service.impl;
 
 import com.galen.amazon.component.SendMailComponent;
 import com.galen.amazon.mapper.AmazonTrackerMapper;
-import com.galen.amazon.model.AmazonTracker;
+import com.galen.amazon.entity.AmazonTracker;
 import com.galen.amazon.pojo.GalenResponse;
 import com.galen.amazon.service.NotifyService;
 import com.galen.amazon.utils.IdUtil;

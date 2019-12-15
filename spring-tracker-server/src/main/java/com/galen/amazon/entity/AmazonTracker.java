@@ -1,4 +1,4 @@
-package com.galen.amazon.model;
+package com.galen.amazon.entity;
 
 import java.io.Serializable;
 

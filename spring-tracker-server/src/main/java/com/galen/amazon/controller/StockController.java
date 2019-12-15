@@ -1,5 +1,6 @@
 package com.galen.amazon.controller;
 
+import com.galen.amazon.entity.StockTracker;
 import com.galen.amazon.pojo.GalenResponse;
 import com.galen.amazon.service.StockService;
 import com.galen.amazon.utils.ResponseUtils;
@@ -8,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,5 +28,11 @@ public class StockController {
             return ResponseUtils.build(401, "请传入token");
         }
         return stockService.barChartInfo(token);
+    }
+
+    @ApiOperation(value = "库存记录")
+    @PostMapping("add")
+    public GalenResponse add(StockTracker stockTracker) {
+        return stockService.add(stockTracker);
     }
 }

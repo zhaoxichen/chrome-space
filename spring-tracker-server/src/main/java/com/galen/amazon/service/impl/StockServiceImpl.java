@@ -1,9 +1,13 @@
 package com.galen.amazon.service.impl;
 
+import com.galen.amazon.entity.StockTracker;
+import com.galen.amazon.mapper.StockTrackerMapper;
 import com.galen.amazon.pojo.ChartData;
 import com.galen.amazon.pojo.GalenResponse;
 import com.galen.amazon.service.StockService;
+import com.galen.amazon.utils.IdUtil;
 import com.galen.amazon.utils.ResponseUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -13,6 +17,9 @@ import java.util.*;
 public class StockServiceImpl implements StockService {
 
     private static final int WEEKDAYS = 7;
+
+    @Autowired
+    private StockTrackerMapper stockTrackerMapper;
 
     @Override
     public GalenResponse barChartInfo(String token) {
@@ -24,6 +31,13 @@ public class StockServiceImpl implements StockService {
         List<Object> rows = new LinkedList<>();
         chartData.setRows(rows);
         return ResponseUtils.SUCCESS(chartData);
+    }
+
+    @Override
+    public GalenResponse add(StockTracker stockTracker) {
+        stockTracker.setId(IdUtil.generateNumberId());
+        int rowsAffect = stockTrackerMapper.insert(stockTracker);
+        return ResponseUtils.build(rowsAffect);
     }
 
     /**

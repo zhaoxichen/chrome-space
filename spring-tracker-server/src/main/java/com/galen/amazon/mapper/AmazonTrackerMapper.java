@@ -1,6 +1,6 @@
 package com.galen.amazon.mapper;
 
-import com.galen.amazon.model.AmazonTracker;
+import com.galen.amazon.entity.AmazonTracker;
 import org.springframework.stereotype.Repository;
 
 @Repository
