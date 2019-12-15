@@ -1,32 +1,5 @@
-﻿let trackerInterval = setInterval(runLoop, 10 * 1000);//默认启动
-
-function runLoop() {
-    let randomNumber = random(0, 99);
-    if (randomNumber > 80) {
-        console.log('重新加载页面');
-        window.location.reload();//重新加载页面
-        return;
-    }
-    console.log('循环执行查询跟卖>>>');
-    let msg = $("#olp-upd-new");
-    if (msg.length > 0) {
-        let href_url = window.location.href;
-        let numberStr = $('#olp-upd-new > span:nth-child(1) > a').text()
-        let number = getParenthesesStr(numberStr)
-        if (number) {
-            if (1 < parseInt(number)) {
-                console.log(number + "人跟卖！")
-                sendEMail('3314143291@qq.com',msg.html(),href_url)
-                //sendEMail('1022369911@qq.com', msg.html(), href_url)
-            } else {
-                console.log(number + "人跟卖！")
-            }
-        }
-        console.log(number)
-    } else {
-        console.log("没人跟卖！")
-    }
-}
+﻿let trackerInterval;//跟卖监控定时器
+let trackerStockInterval;//库存监控定时器
 
 /**
  * 产生随机整数，包含下限值，但不包括上限值
@@ -70,6 +43,37 @@ function sendEMail(to, msg, goodsUrl) {
         function (data, status) {
             console.log("数据: \n" + data + "\n状态: " + status);
         });
+}
+
+/**
+ * 设置参数
+ * */
+function setSwitchConfig(key, val) {
+    $.post("http://127.0.0.1:9091/config/set-switch", {
+            key: key,
+            value: val
+        },
+        function (data, status) {
+            console.log("数据: \n" + data + "\n状态: " + status);
+        });
+}
+
+/**
+ * 获取参数
+ * */
+function getSwitchConfig(key) {
+    let result = false;
+    $.ajax({
+        dataType: 'json',
+        url: 'http://127.0.0.1:9091/config/get-switch',
+        type: "get",
+        data: {key: key},
+        async: false,//这里选择同步为false，那么这个程序执行到这里的时候会暂停，等待数据加载完成后才继续执行
+        success: function (data) {
+            result = data;
+        }
+    });
+    return result;
 }
 
 // 注意，必须设置了run_at=document_start 此段代码才会生效
@@ -166,16 +170,32 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         ele.innerHTML = `* {font-size: ${request.size}px !important;}`;
         document.head.appendChild(ele);
     } else if (request.cmd == 'tracker_start') {
+        setSwitchConfig('seller_tracker_start', 'true');
         tip(JSON.stringify(request.description));
         trackerInterval = setInterval(runLoop, 10 * 1000);
         sendResponse('我收到你的消息了：' + JSON.stringify("已经启动"));
     } else if (request.cmd == 'tracker_stop') {
+        setSwitchConfig('seller_tracker_start', 'false');
         tip(JSON.stringify(request.description));
         if (trackerInterval) {
             clearInterval(trackerInterval)
             sendResponse('我收到你的消息了：' + JSON.stringify("已经停止"));
         } else {
             sendResponse('我收到你的消息了：' + JSON.stringify("未启动"));
+        }
+    } else if (request.cmd == 'stock_tracker_start') {
+        setSwitchConfig('stock_tracker_start', 'true');
+        tip(JSON.stringify(request.description));
+        trackerStockInterval = setInterval(runLoopStock, 10 * 1000);
+        sendResponse('我收到你的消息了：' + JSON.stringify("已经启动库存监控"));
+    } else if (request.cmd == 'stock_tracker_stop') {
+        setSwitchConfig('stock_tracker_start', 'false');
+        tip(JSON.stringify(request.description));
+        if (trackerStockInterval) {
+            clearInterval(trackerStockInterval)
+            sendResponse('我收到你的消息了：' + JSON.stringify("已经停止库存监控"));
+        } else {
+            sendResponse('我收到你的消息了：' + JSON.stringify("未启动库存监控"));
         }
     } else {
         tip(JSON.stringify(request));

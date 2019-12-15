@@ -83,7 +83,6 @@ $('#open_url_current_tab').click(() => {
     });
 });
 
-
 // popup主动发消息给content-script
 $('#send_message_to_content_script').click(() => {
     sendMessageToContentScript('你好，我是popup！', (response) => {
@@ -127,3 +126,25 @@ function sendMessageToContentScript(message, callback) {
         });
     });
 }
+
+/**********************************************库存监控*******************************************************/
+// 当前标签打开购物车页面
+$('#stock_url_current_tab').click(() => {
+    getCurrentTabId(tabId => {
+        chrome.tabs.update(tabId, {url: 'https://www.amazon.com/gp/cart/view.html/ref=lh_cart_vc_btn'});
+    });
+});
+
+// 启动库存监控定时器
+$('#stock_tracker_start').click(() => {
+    sendMessageToContentScript({cmd: 'stock_tracker_start', description: '启动监控....'}, (response) => {
+        if (response) alert('收到来自content-stock的回复：' + response);
+    });
+});
+
+// 终止库存监控定时器
+$('#stock_tracker_stop').click(() => {
+    sendMessageToContentScript({cmd: 'stock_tracker_stop', description: '终止监控....'}, (response) => {
+        if (response) alert('收到来自content-stock的回复：' + response);
+    });
+});

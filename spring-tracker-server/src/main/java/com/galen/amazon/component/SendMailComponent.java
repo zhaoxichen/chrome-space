@@ -22,7 +22,10 @@ public class SendMailComponent {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Value("${spring.mail.username}")  //发送人的邮箱  比如155156641XX@163.com
+    /**
+     * 发送人的邮箱  比如155156641XX@163.com
+     */
+    @Value("${spring.mail.username}")
     private String from;
 
     /**
