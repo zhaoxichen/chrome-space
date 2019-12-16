@@ -23,7 +23,7 @@ public class Base implements Serializable {
     /**
      * 初始化创建信息
      */
-    private void initCreated() {
+    public void initCreated() {
         this.setCreatedOn(new Date());
         this.initModified();
     }
@@ -31,7 +31,7 @@ public class Base implements Serializable {
     /**
      * 初始化修改者信息
      */
-    private void initModified() {
+    public void initModified() {
         this.setModifiedOn(new Date());
     }
 

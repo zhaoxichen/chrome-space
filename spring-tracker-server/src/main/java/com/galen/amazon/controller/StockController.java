@@ -8,10 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(value = "库存监控", tags = "发邮件，短信等操作")
 @RestController
@@ -32,7 +29,7 @@ public class StockController {
 
     @ApiOperation(value = "库存记录")
     @PostMapping("add")
-    public GalenResponse add(StockTracker stockTracker) {
-        return stockService.add(stockTracker);
+    public GalenResponse add(@RequestBody String cartHtmlBody) {
+        return stockService.add(cartHtmlBody);
     }
 }
