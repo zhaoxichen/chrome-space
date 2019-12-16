@@ -35,7 +35,7 @@ function getParenthesesStr(text) {
  * 邮件发送
  * */
 function sendEMail(to, msg, goodsUrl) {
-    $.post("http://127.0.0.1:9091/notify/send/mail", {
+    $.post(domain + "/notify/send/mail", {
             email: to,
             msg: msg,
             goodsUrl: goodsUrl
@@ -49,7 +49,7 @@ function sendEMail(to, msg, goodsUrl) {
  * 设置参数
  * */
 function setSwitchConfig(key, val) {
-    $.post("http://127.0.0.1:9091/config/set-switch", {
+    $.post(domain + "/config/set-switch", {
             key: key,
             value: val
         },
@@ -65,7 +65,7 @@ function getSwitchConfig(key) {
     let result = false;
     $.ajax({
         dataType: 'json',
-        url: 'http://127.0.0.1:9091/config/get-switch',
+        url: domain + '/config/get-switch',
         type: "get",
         data: {key: key},
         async: false,//这里选择同步为false，那么这个程序执行到这里的时候会暂停，等待数据加载完成后才继续执行
