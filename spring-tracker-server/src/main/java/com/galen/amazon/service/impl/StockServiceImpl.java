@@ -1,12 +1,15 @@
 package com.galen.amazon.service.impl;
 
+import com.galen.amazon.entity.StockTracker;
 import com.galen.amazon.mapper.StockTrackerMapper;
 import com.galen.amazon.pojo.ChartData;
 import com.galen.amazon.pojo.GalenResponse;
 import com.galen.amazon.service.StockService;
+import com.galen.amazon.utils.IdUtil;
 import com.galen.amazon.utils.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -17,8 +20,14 @@ import java.util.regex.Pattern;
 public class StockServiceImpl implements StockService {
 
     private static final int WEEKDAYS = 7;
-
-    private static final String regexStr = ".+此卖家对该商品的数量限制为每位客户([1-9]\\d*|0)";
+    /**
+     * 库存数量
+     */
+    private static final Pattern patternStockNum = Pattern.compile("此卖家对该商品的数量限制为每位客户([1-9]\\d*|0)");
+    /**
+     * 商品详情url
+     */
+    private static final Pattern patternGoodsUrl = Pattern.compile("[a-zA-z]+://[^\\s]*psc=1");
 
     @Autowired
     private StockTrackerMapper stockTrackerMapper;
@@ -39,17 +48,41 @@ public class StockServiceImpl implements StockService {
     @Override
     public GalenResponse add(String cartHtmlBody) {
         System.out.println(cartHtmlBody);
-        Pattern pattern = Pattern.compile(regexStr);
-        Matcher matcher = pattern.matcher(cartHtmlBody);
+        StockTracker stockTracker = new StockTracker();
+        //解析购物车的警告的P标签
+        Matcher matcher = patternStockNum.matcher(cartHtmlBody);
         if (matcher.find()) {
-            String collegeId = matcher.group(2);
-            System.out.println(collegeId);
+            String stockNum = matcher.group(1);
+            stockTracker.setStockNum(stockNum);
         }
-        //解析购物车的html
-        if (cartHtmlBody.matches(regexStr)) {
-            return ResponseUtils.build(0);
+        //产品链接
+        matcher = patternGoodsUrl.matcher(cartHtmlBody);
+        if (matcher.find()) {
+            String goodsUrl = matcher.group(0);
+            stockTracker.setGoodsUrl(goodsUrl);
+            if (!StringUtils.isEmpty(goodsUrl)) {
+                //获取asin
+                int begin = goodsUrl.indexOf("dp/");
+                if (-1 != begin) {
+                    begin += 3;
+                    int end = goodsUrl.indexOf("/ref");
+                    if (-1 != end && end > begin) {
+                        String goodsAsin = goodsUrl.substring(begin, end);
+                        stockTracker.setGoodsAsin(goodsAsin);
+                    }
+                }
+            }
         }
-        return ResponseUtils.build(1);
+        stockTracker.setId(IdUtil.generateNumberId());
+        stockTracker.initCreated();
+        stockTrackerMapper.insert(stockTracker);
+        return ResponseUtils.build(stockTracker);
+    }
+
+    @Override
+    public GalenResponse list() {
+        List<StockTracker> stockTrackerList = stockTrackerMapper.selectList(null);
+        return ResponseUtils.build(stockTrackerList);
     }
 
     /**

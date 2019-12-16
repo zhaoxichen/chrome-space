@@ -18,6 +18,10 @@ public class StockTracker extends Base {
     @TableId
     private Long id;
 
-    private String goodsName;
+    private String stockNum;
+
+    private String goodsUrl;
+
+    private String goodsAsin;
 
 }

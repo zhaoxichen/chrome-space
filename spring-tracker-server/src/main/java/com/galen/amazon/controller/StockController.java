@@ -1,6 +1,5 @@
 package com.galen.amazon.controller;
 
-import com.galen.amazon.entity.StockTracker;
 import com.galen.amazon.pojo.GalenResponse;
 import com.galen.amazon.service.StockService;
 import com.galen.amazon.utils.ResponseUtils;
@@ -27,9 +26,15 @@ public class StockController {
         return stockService.barChartInfo(token);
     }
 
-    @ApiOperation(value = "库存记录")
+    @ApiOperation(value = "库存添加")
     @PostMapping("add")
     public GalenResponse add(@RequestBody String cartHtmlBody) {
         return stockService.add(cartHtmlBody);
+    }
+
+    @ApiOperation(value = "库存记录列表")
+    @GetMapping("list")
+    public GalenResponse list() {
+        return stockService.list();
     }
 }

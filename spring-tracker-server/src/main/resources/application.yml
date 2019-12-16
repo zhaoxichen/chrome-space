@@ -8,6 +8,7 @@ spring:
     #url: jdbc:mysql://127.0.0.1:3306/vhr?useUnicode=true&characterEncoding=UTF-8
     #Mysql8.0以上版本,由于MySql8.0废弃了convertToNull该写法，改为 CONVERT_TO_NULL
     url: jdbc:mysql://db4free.net:3306/galen_db?characterEncoding=utf8&serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL
+    #url: jdbc:mysql://127.0.0.1:3306/galen_db?characterEncoding=utf8&serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL
     username: user_galen
     password:  Galen*10*
     # 使用druid数据源
