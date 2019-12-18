@@ -23,12 +23,13 @@ public class StockServiceImpl implements StockService {
     /**
      * 库存数量
      */
-    private static final Pattern patternStockNum = Pattern.compile("此卖家对该商品的数量限制为每位客户([1-9]\\d*|0)");
+    private static final Pattern patternStockNum = Pattern.compile("This seller has only ([1-9]\\d*|0)");
     /**
      * 商品详情url
      */
-    private static final Pattern patternGoodsUrl = Pattern.compile("[a-zA-z]+://[^\\s]*psc=1");
+    private static final Pattern patternGoodsUrl = Pattern.compile("/gp/product/[^\\s]*psc=1");
 
+    private static final String goodsDomain = "https://www.amazon.com";
     @Autowired
     private StockTrackerMapper stockTrackerMapper;
 
@@ -59,12 +60,12 @@ public class StockServiceImpl implements StockService {
         matcher = patternGoodsUrl.matcher(cartHtmlBody);
         if (matcher.find()) {
             String goodsUrl = matcher.group(0);
-            stockTracker.setGoodsUrl(goodsUrl);
             if (!StringUtils.isEmpty(goodsUrl)) {
+                stockTracker.setGoodsUrl(goodsDomain + goodsUrl);
                 //获取asin
-                int begin = goodsUrl.indexOf("dp/");
+                int begin = goodsUrl.indexOf("product/");
                 if (-1 != begin) {
-                    begin += 3;
+                    begin += 8;
                     int end = goodsUrl.indexOf("/ref");
                     if (-1 != end && end > begin) {
                         String goodsAsin = goodsUrl.substring(begin, end);

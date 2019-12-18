@@ -36,7 +36,7 @@ function analyzeStockDetails() {
     //获取警告
 
     //获取库存
-    $('.a-input-text')
+    $('.a-input-text').value
     //有库存的
     $(".sc-product-scarcity").css("background-color", "blue");
     //无库存的
