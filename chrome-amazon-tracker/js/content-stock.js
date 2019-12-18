@@ -1,6 +1,7 @@
 ﻿//执行一次
 //window.onload = initStock;
-setTimeout(analyzeStockDetails,2000)
+setTimeout(analyzeStockDetails, 2000)
+
 //初始化
 function initStock() {
     let flag = getSwitchConfig('stock_tracker_start');
@@ -26,6 +27,8 @@ function runLoopStock() {
 
 //解析库存
 function analyzeStockDetails() {
+    //输入框
+    let inputTable = $('.a-input-text');
     //点击下拉
     $('#a-autoid-0-announce').click();
     console.log('延迟等待元素出现')
@@ -33,15 +36,17 @@ function analyzeStockDetails() {
     console.log('等待完成')
     //点击 10+
     document.getElementById('dropdown1_10').click();
+    delay(1000);
+    console.log('等待完成')
     //获取警告
-
+    let content = $(".a-alert-content>span");
+    if (content) {
+        saveStock(content);
+    }
     //获取库存
-    $('.a-input-text').value
-    //有库存的
-    $(".sc-product-scarcity").css("background-color", "blue");
-    //无库存的
-    $(".a-alert-content").css("background-color", "green");
-    //let content = $("#a-size-small a-color-price sc-product-scarcity");
+    console.log(inputTable.value)
+
+
 }
 
 //延时函数

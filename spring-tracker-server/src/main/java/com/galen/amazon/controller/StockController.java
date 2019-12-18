@@ -27,8 +27,8 @@ public class StockController {
     }
 
     @ApiOperation(value = "库存添加")
-    @PostMapping("add")
-    public GalenResponse add(@RequestBody String cartHtmlBody) {
+    @PostMapping("save")
+    public GalenResponse save(@RequestBody String cartHtmlBody) {
         return stockService.add(cartHtmlBody);
     }
 

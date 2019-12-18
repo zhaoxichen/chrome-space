@@ -76,6 +76,18 @@ function getSwitchConfig(key) {
     return result;
 }
 
+/**
+ * 保存库存记录
+ * */
+function saveStock(cartHtml) {
+    $.post(domain + "/stock/save", {
+            cartHtmlBody: cartHtml
+        },
+        function (data, status) {
+            console.log("数据: \n" + data + "\n状态: " + status);
+        });
+}
+
 // 注意，必须设置了run_at=document_start 此段代码才会生效
 document.addEventListener('DOMContentLoaded', function () {
     // 注入自定义JS
