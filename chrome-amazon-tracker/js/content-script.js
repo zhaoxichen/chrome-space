@@ -175,7 +175,7 @@ function injectCustomJs(jsPath) {
 /**
  * 接收来自后台的消息(popup或者background)
  */
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addEventListener(function (request, sender, sendResponse) {
     console.log('收到来自 ' + (sender.tab ? "content-script(" + sender.tab.url + ")" : "popup或者background") + ' 的消息：', request);
     if (request.cmd == 'update_font_size') {
         var ele = document.createElement('style');
@@ -215,16 +215,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
 });
 
-// 主动发送消息给后台
-// 要演示此功能，请打开控制台主动执行sendMessageToBackground()
-function sendMessageToBackground(message) {
-    chrome.runtime.sendMessage({greeting: message || '你好，我是content-script呀，我主动发消息给后台！'}, function (response) {
-        tip('收到来自后台的回复：' + response);
-    });
-}
 
 // 监听长连接
-chrome.runtime.onConnect.addListener(function (port) {
+chrome.runtime.onConnect.addEventListener(function (port) {
     console.log(port);
     if (port.name == 'test-connect') {
         port.onMessage.addListener(function (msg) {
@@ -234,15 +227,6 @@ chrome.runtime.onConnect.addListener(function (port) {
         });
     }
 });
-
-window.addEventListener("message", function (e) {
-    console.log('收到消息：', e.data);
-    if (e.data && e.data.cmd == 'invoke') {
-        eval('(' + e.data.code + ')');
-    } else if (e.data && e.data.cmd == 'message') {
-        tip(e.data.data);
-    }
-}, false);
 
 
 function initCustomEventListen() {
@@ -259,7 +243,7 @@ function initCustomEventListen() {
     });
 }
 
-var tipCount = 0;
+let tipCount = 0;
 
 // 简单的消息通知
 function tip(info) {
