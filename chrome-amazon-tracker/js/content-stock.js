@@ -27,6 +27,13 @@ function runLoopStock() {
 
 //解析库存
 function analyzeStockDetails() {
+    //点击下拉
+    $('span>span .a-button-inner .sc-offscreen-label').click()
+    console.log('延迟等待元素出现')
+    delay(500);
+    console.log('等待完成')
+    //点击 10+
+    $('#dropdown1_10').click();
     //输入框
     let inputTable = $('.a-input-text')
     //获取焦点
@@ -36,14 +43,7 @@ function analyzeStockDetails() {
     //失去焦点
     inputTable.blur()
     //点击update
-    $('#a-autoid-0-announce').click()
-    //点击下拉
-    //$('#a-autoid-0-announce').click();
-    //console.log('延迟等待元素出现')
-    //delay(500);
-    //console.log('等待完成')
-    //点击 10+
-    //document.getElementById('dropdown1_10').click();
+    $('span>span .a-button-inner a').click()
     delay(1000);
     console.log('等待完成')
     //获取警告
