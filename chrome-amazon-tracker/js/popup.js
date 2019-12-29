@@ -1,16 +1,3 @@
-$(function () {
-
-    // 加载设置
-    var defaultConfig = {color: 'white'}; // 默认配置
-    chrome.storage.sync.get(defaultConfig, function (items) {
-        document.body.style.backgroundColor = items.color;
-    });
-
-    // 初始化国际化
-    $('#test_i18n').html(chrome.i18n.getMessage("helloWorld"));
-
-
-});
 
 // popup主动发消息给content-script，启动跟卖监控定时器
 $('#seller_tracker_start').click(() => {

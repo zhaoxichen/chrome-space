@@ -1,6 +1,6 @@
 ﻿//执行一次
 //window.onload = initStock;
-setTimeout(analyzeStockDetails, 2000)
+let analyzeStockDetailsLoop = window.setInterval(analyzeStockDetails,1000)
 
 //初始化
 function initStock() {
@@ -28,10 +28,7 @@ function runLoopStock() {
 //解析库存
 function analyzeStockDetails() {
     //点击下拉
-    $('span>span .a-button-inner .sc-offscreen-label').click()
-    console.log('延迟等待元素出现')
-    delay(500);
-    console.log('等待完成')
+    $('span>span .a-button-inner span').click()
     //点击 10+
     $('#dropdown1_10').click();
     //输入框
@@ -44,17 +41,14 @@ function analyzeStockDetails() {
     inputTable.blur()
     //点击update
     $('span>span .a-button-inner a').click()
-    delay(1000);
-    console.log('等待完成')
     //获取警告
     let content = $(".a-alert-content>span");
-    if (content) {
-        saveStock(content);
+    if (null != content){
+        console.log('已经获取到警告信息，中断定时器循环')
+        //去掉定时器的方法
+        window.clearInterval(analyzeStockDetailsLoop);
     }
-    //获取库存
-    console.log(inputTable.value)
-
-
+    console.log(content)
 }
 
 //延时函数
