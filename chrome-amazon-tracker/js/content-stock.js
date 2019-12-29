@@ -1,6 +1,6 @@
 ﻿//执行一次
 //window.onload = initStock;
-let analyzeStockDetailsLoop = window.setInterval(analyzeStockDetails,1000)
+let analyzeStockDetailsLoop = window.setInterval(analyzeStockDetails, 1000)
 
 //初始化
 function initStock() {
@@ -40,15 +40,27 @@ function analyzeStockDetails() {
     //失去焦点
     inputTable.blur()
     //点击update
-    $('span>span .a-button-inner a').click()
-    //获取警告
-    let content = $(".a-alert-content>span");
-    if (null != content){
-        console.log('已经获取到警告信息，中断定时器循环')
-        //去掉定时器的方法
-        window.clearInterval(analyzeStockDetailsLoop);
-    }
-    console.log(content)
+    $('span>span .a-button-inner a').click(function () {
+            console.log('点击了update,去掉定时器的方法,延时等待1500ms,获取警告')
+            //去掉定时器的方法
+            window.clearInterval(analyzeStockDetailsLoop);
+            window.setTimeout(function () {
+                //获取警告
+                let content = $(".a-alert-content>span").innerHTML;
+                if (null != content) {
+                    console.log('已经获取到警告信息，中断定时器循环')
+                    console.log(content)
+                } else {
+                    console.log('没有获取到警告信息，恢复定时器循环')
+                    // analyzeStockDetailsLoop = window.setInterval(analyzeStockDetails, 1000)
+                }
+                console.log('当前库存为' + inputTable.val())
+            }, 5000)
+
+        }
+    )
+
+
 }
 
 //延时函数
