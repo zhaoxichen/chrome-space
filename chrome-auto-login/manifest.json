@@ -1,0 +1,26 @@
+{
+    "manifest_version":2,
+    "name":"chrome插件自动登陆",
+    "description":"登陆",
+    "version":"1.0",
+    "permissions":[
+        "https://translate.google.cn/*",
+    	"contextMenus"
+        ],
+    "browser_action":{
+        "default_icon":"icon.png",
+        "default_title": "Hello！" ,
+        "default_popup": "po.html"
+
+        },
+    "background": {
+        "scripts": ["js/bg.js"]
+      },
+    "content_scripts":[{
+    	"matches":["*://*.myyscm.com/*"],
+        "js":["js/o.js","js/jquery.js",
+            "js/login.js","js/content_script.js"],
+        "run_at": "document_end",
+        "all_frames": true
+     }]
+}
