@@ -43,7 +43,25 @@ public class StockServiceImpl implements StockService {
         chartData.setColumns(columns);
         List<Object> rows = new LinkedList<>();
         chartData.setRows(rows);
-        return ResponseUtils.SUCCESS(chartData);
+        String kk = "{\n" +
+                "        title: {\n" +
+                "            text: 'ECharts 入门示例'\n" +
+                "        },\n" +
+                "        tooltip: {},\n" +
+                "        legend: {\n" +
+                "            data: ['销量']\n" +
+                "        },\n" +
+                "        xAxis: {\n" +
+                "            data: [\"衬衫\", \"羊毛衫\", \"雪纺衫\", \"裤子\", \"高跟鞋\", \"袜子\"]\n" +
+                "        },\n" +
+                "        yAxis: {},\n" +
+                "        series: [{\n" +
+                "            name: '销量',\n" +
+                "            type: 'bar',\n" +
+                "            data: [5, 20, 36, 10, 10, 20]\n" +
+                "        }]\n" +
+                "    }";
+        return ResponseUtils.SUCCESS(kk);
     }
 
     @Override

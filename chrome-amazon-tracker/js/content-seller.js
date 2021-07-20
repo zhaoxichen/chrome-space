@@ -1,5 +1,5 @@
 ﻿//跟卖循环监控
-function runLoop() {
+function runLoopSeller() {
     let randomNumber = random(0, 99);
     if (randomNumber > 80) {
         console.log('重新加载页面');

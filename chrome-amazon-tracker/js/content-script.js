@@ -1,4 +1,31 @@
-﻿let trackerInterval;//跟卖监控定时器
+﻿//当前运行状态
+window.onload = switchState;
+
+//当前工作情况,同一时间只能运行一种模式
+function switchState() {
+    //库存监控
+    let flag = getSwitchConfig('stock_tracker_start');
+    console.log('库存监控程序开关状态>>>' + flag);
+    if (flag) {
+        console.log('运行库存监控程序....');
+        trackerStockInterval = setInterval(runLoopStock, 10 * 1000);
+        //关闭跟卖监控
+        if (trackerInterval) {
+            clearInterval(trackerInterval)
+            setSwitchConfig('seller_tracker_start', false);
+        }
+        return;
+    }
+    //跟卖监控
+    flag = getSwitchConfig('seller_tracker_start');
+    if (flag) {
+        console.log('运行跟卖监控程序....');
+        trackerInterval = setInterval(runLoopSeller, 10 * 1000);
+        return;
+    }
+}
+
+let trackerInterval;//跟卖监控定时器
 let trackerStockInterval;//库存监控定时器
 
 /**
@@ -100,7 +127,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     } else if (request.cmd == 'tracker_start') {
         setSwitchConfig('seller_tracker_start', 'true');
         tip(JSON.stringify(request.description));
-        trackerInterval = setInterval(runLoop, 10 * 1000);
+        trackerInterval = setInterval(runLoopSeller, 10 * 1000);
         sendResponse('我收到你的消息了：' + JSON.stringify("已经启动"));
     } else if (request.cmd == 'tracker_stop') {
         setSwitchConfig('seller_tracker_start', 'false');
@@ -132,6 +159,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 let tipCount = 0;
+
 // 简单的消息通知
 function tip(info) {
     info = info || '';

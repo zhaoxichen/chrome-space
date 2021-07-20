@@ -1,16 +1,4 @@
-﻿//执行一次
-//window.onload = initStock;
-let analyzeStockDetailsLoop = window.setInterval(analyzeStockDetails, 1000)
-
-//初始化
-function initStock() {
-    let flag = getSwitchConfig('stock_tracker_start');
-    console.log('开关状态>>>' + flag);
-    if (flag) {
-        console.log('初始化库存监控程序....');
-        trackerStockInterval = setInterval(runLoopStock, 10 * 1000);
-    }
-}
+﻿//let analyzeStockDetailsLoop = window.setInterval(analyzeStockDetails, 1000)
 
 //库存循环监控
 function runLoopStock() {
@@ -43,7 +31,7 @@ function analyzeStockDetails() {
     $('span>span .a-button-inner a').click(function () {
             console.log('点击了update,去掉定时器的方法,延时等待1500ms,获取警告')
             //去掉定时器的方法
-            window.clearInterval(analyzeStockDetailsLoop);
+            //window.clearInterval(analyzeStockDetailsLoop);
             window.setTimeout(function () {
                 //获取警告
                 let content = $(".a-alert-content>span").innerHTML;
