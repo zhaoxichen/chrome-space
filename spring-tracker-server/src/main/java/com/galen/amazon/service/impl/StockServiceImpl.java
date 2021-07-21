@@ -5,8 +5,8 @@ import com.galen.amazon.mapper.StockTrackerMapper;
 import com.galen.amazon.pojo.ChartData;
 import com.galen.amazon.pojo.GalenResponse;
 import com.galen.amazon.service.StockService;
-import com.galen.amazon.utils.IdUtil;
-import com.galen.amazon.utils.ResponseUtils;
+import com.galen.amazon.util.IdUtil;
+import com.galen.amazon.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -61,7 +61,7 @@ public class StockServiceImpl implements StockService {
                 "            data: [5, 20, 36, 10, 10, 20]\n" +
                 "        }]\n" +
                 "    }";
-        return ResponseUtils.SUCCESS(kk);
+        return ResponseUtil.SUCCESS(kk);
     }
 
     @Override
@@ -95,13 +95,13 @@ public class StockServiceImpl implements StockService {
         stockTracker.setId(IdUtil.generateNumberId());
         stockTracker.initCreated();
         stockTrackerMapper.insert(stockTracker);
-        return ResponseUtils.build(stockTracker);
+        return ResponseUtil.build(stockTracker);
     }
 
     @Override
     public GalenResponse list() {
         List<StockTracker> stockTrackerList = stockTrackerMapper.selectList(null);
-        return ResponseUtils.build(stockTrackerList);
+        return ResponseUtil.build(stockTrackerList);
     }
 
     /**

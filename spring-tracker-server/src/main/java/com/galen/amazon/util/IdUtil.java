@@ -1,4 +1,4 @@
-package com.galen.amazon.utils;
+package com.galen.amazon.util;
 
 public class IdUtil {
 

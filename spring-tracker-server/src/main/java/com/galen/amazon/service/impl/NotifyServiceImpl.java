@@ -5,8 +5,8 @@ import com.galen.amazon.mapper.AmazonTrackerMapper;
 import com.galen.amazon.entity.AmazonTracker;
 import com.galen.amazon.pojo.GalenResponse;
 import com.galen.amazon.service.NotifyService;
-import com.galen.amazon.utils.IdUtil;
-import com.galen.amazon.utils.ResponseUtils;
+import com.galen.amazon.util.IdUtil;
+import com.galen.amazon.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class NotifyServiceImpl implements NotifyService {
     public GalenResponse sendMailCode(String email, String msg, String goodsUrl) {
         AmazonTracker amazonTracker = amazonTrackerMapper.selectByGoodsUrl(goodsUrl);
         if (null != amazonTracker) {
-            return ResponseUtils.SUCCESS("今天已经发送");
+            return ResponseUtil.SUCCESS("今天已经发送");
         }
         amazonTracker = new AmazonTracker();
         amazonTracker.setId(IdUtil.generateNumberId());
@@ -32,6 +32,6 @@ public class NotifyServiceImpl implements NotifyService {
         amazonTrackerMapper.insert(amazonTracker);
         //发送邮件
         sendMailComponent.sendHtmlMail(email, PGS_MINI_SUBJECT, msg + goodsUrl);
-        return ResponseUtils.SUCCESS("发送成功");
+        return ResponseUtil.SUCCESS("发送成功");
     }
 }

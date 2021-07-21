@@ -2,7 +2,7 @@ package com.galen.amazon.controller;
 
 import com.galen.amazon.config.ParamConfig;
 import com.galen.amazon.pojo.GalenResponse;
-import com.galen.amazon.utils.ResponseUtils;
+import com.galen.amazon.util.ResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ public class ParamController {
     @PostMapping("set-switch")
     public GalenResponse setSwitchConfig(String key, String value) {
         if (null == key) {
-            return ResponseUtils.build(401, "请传入key");
+            return ResponseUtil.build(401, "请传入key");
         }
         log.info("set {}>>>{}", key, value);
         Boolean boolValue;
@@ -35,7 +35,7 @@ public class ParamController {
         } else if ("stock_tracker_start".equals(key)) {
             ParamConfig.stockTrackerStart = boolValue;
         }
-        return ResponseUtils.SUCCESS("");
+        return ResponseUtil.SUCCESS("");
     }
 
     @ApiOperation(value = "获取参数的值")

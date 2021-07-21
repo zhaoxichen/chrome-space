@@ -1,4 +1,4 @@
-package com.galen.amazon.utils;
+package com.galen.amazon.util;
 
 import com.galen.amazon.pojo.GalenResponse;
 
@@ -12,7 +12,7 @@ import com.galen.amazon.pojo.GalenResponse;
  * controller层错误码 401起499止
  * service层错误码 501起599止
  **/
-public class ResponseUtils {
+public class ResponseUtil {
 
     public static GalenResponse SUCCESS() {
         return new GalenResponse(200, "SUCCESS", null);

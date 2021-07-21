@@ -2,7 +2,7 @@ package com.galen.amazon.controller;
 
 import com.galen.amazon.pojo.GalenResponse;
 import com.galen.amazon.service.NotifyService;
-import com.galen.amazon.utils.ResponseUtils;
+import com.galen.amazon.util.ResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +25,16 @@ public class NotifyController {
     @PostMapping("send/phone")
     public GalenResponse sendPhone(String phone, String msg) {
         if (null == phone) {
-            return ResponseUtils.build(401, "请传入phone");
+            return ResponseUtil.build(401, "请传入phone");
         }
-        return ResponseUtils.SUCCESS(msg);
+        return ResponseUtil.SUCCESS(msg);
     }
 
     @ApiOperation(value = "发送邮件信息")
     @PostMapping("send/mail")
     public GalenResponse sendMail(String email, String msg, String goodsUrl) {
         if (null == email) {
-            return ResponseUtils.build(401, "请传入email");
+            return ResponseUtil.build(401, "请传入email");
         }
         return notifyService.sendMailCode(email, msg, goodsUrl);
     }
